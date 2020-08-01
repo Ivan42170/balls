@@ -9,6 +9,7 @@ Created on Wed Jul 22 13:20:03 2020
 from tkinter import Tk, Canvas, Frame, BOTH, PhotoImage
 import time, math, random
 
+
 class Example(Frame):
   
     def __init__(self, parent):
@@ -42,18 +43,30 @@ class ball():
         self.check_boundaries()
 
     def check_boundaries(self):
+        col =  ["green", "red", "blue", "orange", "yellow"]
         if self.y - 10 - self.radious <= 0 :
             self.vy = -self.vy
-            self.change_color("green")
+            self.change_color(random.choices(col, k=1))
+            
+            
+           
         if 490 - self.y - self.radious <= 0 :
             self.vy = -self.vy
+            self.change_color(random.choices(col, k=1))
+            
         if 490 - self.x - self.radious <= 0 :
             self.vx = -self.vx
+            self.change_color(random.choices(col, k=1))
+            
         if self.x - 10 - self.radious <= 0 :
-            self.vx = -self.vx 
+            self.vx = -self.vx
+            self.change_color(random.choices(col, k=1))
+            
 
     def change_color(self, color):
-        pass
+        #self.color = color
+        #self.image = self.canvas.create_oval(self.x - self.radious, self.y - self.radious, self.x + self.radious, self.y + self.radious, outline = 'black', fill = color)
+        self.canvas.itemconfig(self.image, fill = color)
 
     def change_size(self, radious):
         pass
@@ -63,12 +76,13 @@ class ball():
  
  
 def main():
+    col =  ["green", "red", "blue", "orange", "yellow"]
     root = Tk()
     w = Canvas(root, width=600, height=600)
     w.pack()
     w.create_rectangle(10, 10, 490, 490, outline = "red", width = 5)
-    ball1 = ball("orange", 50, 50, 15, w, 3, 4)
-    ball2 = ball("red", 70, 70, 10, w, 20, 25)
+    ball1 = ball(random.choices(col, k=1), 50, 50, 15, w, 15, 10)
+    ball2 = ball(random.choices(col, k=1), 70, 70, 10, w, 10, 20)
     root.update()
     
     while True: 
