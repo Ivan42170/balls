@@ -78,9 +78,7 @@ class ball():
 
     def change_size(self, radious):
         self.canvas.coords(self.image, self.x - radious, self.y - radious, self.x + radious, self.y + radious)
-        self.radious = radious
-def fermer(root) :
-    root.destroy()          
+        self.radious = radious         
         
 class quitButton(Button):
     def __init__(self, parent):
@@ -89,9 +87,22 @@ class quitButton(Button):
         # Command to close the window (the destory method)
         self['command'] = parent.destroy
         self.pack(side = RIGHT)
-def add_balls(canvas, balls) :
-    Ball = ball(random.randint(40, 460), random.randint(40, 460), random.randint(10, 30), canvas, random.randint(-10, 10), random.randint(-10, 10))
-    balls.append(Ball)
+
+
+
+class addButton(Button):
+    def __init__(self, parent, canvas, balls):
+        Button.__init__(self, parent)
+        self['text'] = 'Добавить'
+        self.canvas = canvas
+        self.balls = balls
+        self['command'] = self.add_balls
+        self.pack(side = BOTTOM)
+
+    def add_balls(self) :
+        Ball = ball(random.randint(40, 460), random.randint(40, 460), random.randint(10, 30), self.canvas, random.randint(-10, 10), random.randint(-10, 10))
+        self.balls.append(Ball)
+
 def main():
     
     root = Tk()
@@ -104,8 +115,8 @@ def main():
     ball2 = ball(70, 70, 10, w, 10, 20)
     balls = [ball1, ball2]
     root.update()
-    b1 = Button(text="Изменить", width=15, height=3, command = add_balls(w, balls))
-    b1.pack()
+    #b1 = Button(text="Изменить", width=15, height=3, command = add_balls(w, balls))
+    b1 = addButton(root, w, balls)
    
     while True:
         for e in balls :
