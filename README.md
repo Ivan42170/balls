@@ -1,3 +1,4 @@
+
 # balls
 
 This progect creat animetion of the balls.
@@ -7,3 +8,6 @@ This progect creat animetion of the balls.
 * colision the balls
 * buttons
 * keybord direction
+
+## DONE
+* quit buttons
