@@ -54,34 +54,22 @@ class ball():
             self.vy = -self.vy
             self.change_color(random.choices(col, k=1))
             self.change_size(random.randint(10, 50))
-        if self.radious >= 20 :
-            self.radious = 19
-            time.sleep(0.1)
-                        
-           
+            
         if 490 - self.y - self.radious <= 0 :
             self.vy = -self.vy
             self.change_color(random.choices(col, k=1))
             self.change_size(random.randint(10, 50))
-        if self.radious >= 20 :
-            self.radious = 19
-            time.sleep(0.1)
             
         if 490 - self.x - self.radious <= 0 :
             self.vx = -self.vx
             self.change_color(random.choices(col, k=1))
             self.change_size(random.randint(10, 50))
-        if self.radious >= 20 :
-            self.radious = 19
-            time.sleep(0.1)
             
         if self.x - 10 - self.radious <= 0 :
             self.vx = -self.vx
             self.change_color(random.choices(col, k=1))
             self.change_size(random.randint(10, 50))
-        if self.radious >= 20 :
-            self.radious = 19
-            time.sleep(0.1)   
+                       
 
     def change_color(self, color):
         self.color = color
@@ -89,8 +77,27 @@ class ball():
         self.canvas.itemconfig(self.image, fill = color)
 
     def change_size(self, radious):
+        size = self.radious
         self.canvas.coords(self.image, self.x - radious, self.y - radious, self.x + radious, self.y + radious)
-        self.radious = radious         
+        self.radious = radious
+        dif = self.radious - size
+        if self.y - 10 - self.radious <= 0 :
+            self.canvas.move(self.image, 0, dif)
+            self.y += dif
+    
+        if 490 - self.y - self.radious <= 0 :
+            self.canvas.move(self.image, 0, -dif)
+            self.y -= dif
+            
+        if 490 - self.x - self.radious <= 0 :
+            self.canvas.move(self.image, -dif, 0)
+            self.x -= dif
+            
+        if self.x - 10 - self.radious <= 0 :
+            self.canvas.move(self.image, dif, 0)
+            self.x += dif
+        
+         
         
 class quitButton(Button):
     def __init__(self, parent):
@@ -123,8 +130,8 @@ def main():
     w.pack()
     w.create_rectangle(10, 10, 490, 490, outline = "red", width = 5)
     
-    ball1 = ball(50, 50, 15, w, 15, 10)
-    ball2 = ball(70, 70, 10, w, 10, 20)
+    ball1 = ball(50, 50, 15, w, 10, 15)
+    ball2 = ball(70, 70, 10, w, -1, -1)
     balls = [ball1, ball2]
     root.update()
     #b1 = Button(text="Изменить", width=15, height=3, command = add_balls(w, balls))
