@@ -54,22 +54,34 @@ class ball():
             self.vy = -self.vy
             self.change_color(random.choices(col, k=1))
             self.change_size(random.randint(10, 50))
-        #if self.change_size >= 35 :
-            
-            
+        if self.radious >= 20 :
+            self.radious = 19
+            time.sleep(0.1)
+                        
            
         if 490 - self.y - self.radious <= 0 :
             self.vy = -self.vy
             self.change_color(random.choices(col, k=1))
+            self.change_size(random.randint(10, 50))
+        if self.radious >= 20 :
+            self.radious = 19
+            time.sleep(0.1)
             
         if 490 - self.x - self.radious <= 0 :
             self.vx = -self.vx
             self.change_color(random.choices(col, k=1))
+            self.change_size(random.randint(10, 50))
+        if self.radious >= 20 :
+            self.radious = 19
+            time.sleep(0.1)
             
         if self.x - 10 - self.radious <= 0 :
             self.vx = -self.vx
             self.change_color(random.choices(col, k=1))
-            
+            self.change_size(random.randint(10, 50))
+        if self.radious >= 20 :
+            self.radious = 19
+            time.sleep(0.1)   
 
     def change_color(self, color):
         self.color = color
