@@ -31,7 +31,7 @@ class ball():
         
         if color == "undefined" :
             color = random.choices(self.col, k=1)
-         
+            #l1.config(text="red")
         self.color = color
         self.radious = radious
         self.vy = vy
@@ -40,7 +40,8 @@ class ball():
         self.y = y
         self.canvas = canvas
         self.image = canvas.create_oval(x - radious, y - radious, x + radious, y + radious, outline = 'black', fill = color)
-    
+        #self.l1 = Label(text = "")
+        #self.l1.pack()
     def move(self):
         self.canvas.move(self.image, self.vx, self.vy)
         self.x += self.vx
@@ -75,7 +76,9 @@ class ball():
         self.color = color
         #self.image = self.canvas.create_oval(self.x - self.radious, self.y - self.radious, self.x + self.radious, self.y + self.radious, outline = 'black', fill = color)
         self.canvas.itemconfig(self.image, fill = color)
-
+        #self.l1.config(text = balls[-1].color)
+        
+        
     def change_size(self, radious):
         size = self.radious
         self.canvas.coords(self.image, self.x - radious, self.y - radious, self.x + radious, self.y + radious)
@@ -96,7 +99,7 @@ class ball():
         if self.x - 10 - self.radious <= 0 :
             self.canvas.move(self.image, dif, 0)
             self.x += dif
-        
+
          
         
 class quitButton(Button):
@@ -122,6 +125,13 @@ class addButton(Button):
         Ball = ball(random.randint(40, 460), random.randint(40, 460), random.randint(10, 30), self.canvas, random.randint(-10, 10), random.randint(-10, 10))
         self.balls.append(Ball)
 
+#class change_label():
+    
+
+    
+    
+
+
 def main():
     
     root = Tk()
@@ -129,14 +139,27 @@ def main():
     w = Canvas(root, width=600, height=600)
     w.pack()
     w.create_rectangle(10, 10, 490, 490, outline = "red", width = 5)
-    
+    #l1 = Label()
     ball1 = ball(50, 50, 15, w, 10, 15)
-    ball2 = ball(70, 70, 10, w, -1, -1)
+    ball2 = ball(70, 70, 10, w, -15, -15)
     balls = [ball1, ball2]
     root.update()
     #b1 = Button(text="Изменить", width=15, height=3, command = add_balls(w, balls))
     b1 = addButton(root, w, balls)
-   
+    r_var = StringVar()
+    r_var.set("blue")
+    r1 = Radiobutton(text='Blue', width=10, height=1, variable=r_var, value="blue")
+    r2 = Radiobutton(text='Red', width=10, height=1, variable=r_var, value="red")
+    r3 = Radiobutton(text='yellow', width=10, height=1, variable=r_var, value="yellow")
+    r1.pack(anchor=W, side = RIGHT)
+    r2.pack(anchor=W, side = RIGHT)
+    r3.pack(anchor=W, side = RIGHT)
+    #l1 = Label(text = balls[-1].color)
+    #l1.pack()
+    lbox = Listbox(width = 50, height = 50)
+    lbox.pack()
+    for e in balls :
+        lbox.insert("end", e)
     while True:
         for e in balls :
             e.move()
