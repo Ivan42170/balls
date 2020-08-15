@@ -46,7 +46,7 @@ class ball():
         self.canvas.move(self.image, self.vx, self.vy)
         self.x += self.vx
         self.y += self.vy
-        time.sleep(0.1)
+        
         self.check_boundaries()
 
     def check_boundaries(self):
@@ -108,69 +108,92 @@ class quitButton(Button):
         self['text'] = 'Закрыть'
         # Command to close the window (the destory method)
         self['command'] = parent.destroy
-        self.pack(side = RIGHT)
-
+        self.place(x = 250, y = 0) 
 
 
 class addButton(Button):
     def __init__(self, parent, canvas, balls):
         Button.__init__(self, parent)
+        
         self['text'] = 'Добавить'
         self.canvas = canvas
         self.balls = balls
         self['command'] = self.add_balls
-        self.pack(side = BOTTOM)
+        self.place(x = 30, y = 0)
+        self.lbox = listballs(parent, canvas, balls)
 
     def add_balls(self) :
         Ball = ball(random.randint(40, 460), random.randint(40, 460), random.randint(10, 30), self.canvas, random.randint(-10, 10), random.randint(-10, 10))
         self.balls.append(Ball)
-
+        self.lbox.dictballs['Ball_' + str(len(self.balls)-1)] = Ball
+        self.lbox.insert("end", 'Ball_' + str(len(self.balls)-1))
+        
 #class change_label():
     
 
-    
-    
-
-
-def main():
-    
-    root = Tk()
-    b2 = quitButton(root)
-    w = Canvas(root, width=600, height=600)
-    w.pack()
-    w.create_rectangle(10, 10, 490, 490, outline = "red", width = 5)
-    #l1 = Label()
-    ball1 = ball(50, 50, 15, w, 10, 15)
-    ball2 = ball(70, 70, 10, w, -15, -15)
-    balls = [ball1, ball2]
-    root.update()
-    #b1 = Button(text="Изменить", width=15, height=3, command = add_balls(w, balls))
-    b1 = addButton(root, w, balls)
-    r_var = StringVar()
-    r_var.set("blue")
-    r1 = Radiobutton(text='Blue', width=10, height=1, variable=r_var, value="blue")
-    r2 = Radiobutton(text='Red', width=10, height=1, variable=r_var, value="red")
-    r3 = Radiobutton(text='yellow', width=10, height=1, variable=r_var, value="yellow")
-    r1.pack(anchor=W, side = RIGHT)
-    r2.pack(anchor=W, side = RIGHT)
-    r3.pack(anchor=W, side = RIGHT)
-    #l1 = Label(text = balls[-1].color)
-    #l1.pack()
-    lbox = Listbox(width = 50, height = 50)
-    lbox.pack()
-    for e in balls :
-        lbox.insert("end", e)
-    while True:
-        for e in balls :
-            e.move()
-
-    
-           
+class color_radiobox(Radiobutton) :
+    def __init__(self, parent) :
+        self.r_var = StringVar()
+        self.r_var.set("blue")
+        self.r1 = Radiobutton(text='Blue', width=10, height=1, variable=self.r_var, value="blue")
+        self.r2 = Radiobutton(text='Red', width=10, height=1, variable=self.r_var, value="red")
+        self.r3 = Radiobutton(text='yellow', width=10, height=1, variable=self.r_var, value="yellow")
+        self.r1.pack(anchor=S)
+        self.r2.pack(anchor=S)
+        self.r3.pack(anchor=S)
+        
+class listballs(Listbox) :
+    dictballs = {}    
+    def __init__(self, parent, canvas, balls) :
+        Listbox.__init__(self, parent)
+        for i, ball in enumerate(balls) :
+            self.dictballs['Ball_'+str(i)] = ball
        
-        root.update()
+        self["width"] = 50
+        self['height'] = 20
+        self.canvas = canvas
+        self.balls = balls
+        self.pack(side = RIGHT)
+        for e in self.dictballs :
+            self.insert("end", e)
+    def remove_ball(self) :
+        current = self.get(ACTIVE)
+        self.canvas.delete(self.dictballs[current].image)
+        self.delete(ANCHOR)
+        
 
-    root.mainloop()
     
+root = Tk()
+b2 = quitButton(root)
+w = Canvas(root, width=600, height=600)
+w.pack(side = LEFT)
+w.create_rectangle(10, 10, 490, 490, outline = "red", width = 5)
+#l1 = Label()
+ball1 = ball(50, 50, 15, w, 10, 15)
+ball2 = ball(70, 70, 10, w, -15, -15)
+balls = [ball1, ball2]
+root.update()
+#b1 = Button(text="Изменить", width=15, height=3, command = add_balls(w, balls))
+b1 = addButton(root, w, balls)
+b1.lbox.bind('<Double-1>', lambda x : b1.lbox.remove_ball())
+color_radiobox(root)
+#l1 = Label(text = balls[-1].color)
+#l1.pack()
+
+def motion() :
+     for e in balls :
+        e.move()
+     root.after(50, motion)
+
+    
+motion()
+           
+
+
+       
+   
+    
+
+root.mainloop()
+
  
-if __name__ == '__main__':
-    main()
