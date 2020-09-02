@@ -25,7 +25,7 @@ class Example(Frame):
         
 
 class ball():
-    col =  ["green", "red", "blue", "orange", "yellow"] 
+    col = ["green", "red", "blue", "orange", "yellow"] 
     
     def __init__ (self, x, y, radious, canvas, vx = 1, vy = 1, color = "undefined") :
         
@@ -50,26 +50,26 @@ class ball():
         self.check_boundaries()
 
     def check_boundaries(self):
-        col =  ["green", "red", "blue", "orange", "yellow"]
+        col = self.col 
         if self.y - 10 - self.radious <= 0 :
             self.vy = -self.vy
-            self.change_color(random.choices(col, k=1))
-            self.change_size(random.randint(10, 50))
+            #self.change_color(random.choices(col, k=1))
+            #self.change_size(random.randint(10, 50))
             
         if 490 - self.y - self.radious <= 0 :
             self.vy = -self.vy
-            self.change_color(random.choices(col, k=1))
-            self.change_size(random.randint(10, 50))
+            #self.change_color(random.choices(col, k=1))
+            #self.change_size(random.randint(10, 50))
             
         if 490 - self.x - self.radious <= 0 :
             self.vx = -self.vx
-            self.change_color(random.choices(col, k=1))
-            self.change_size(random.randint(10, 50))
+            #self.change_color(random.choices(col, k=1))
+            #self.change_size(random.randint(10, 50))
             
         if self.x - 10 - self.radious <= 0 :
             self.vx = -self.vx
-            self.change_color(random.choices(col, k=1))
-            self.change_size(random.randint(10, 50))
+            #self.change_color(random.choices(col, k=1))
+            #self.change_size(random.randint(10, 50))
                        
 
     def change_color(self, color):
@@ -107,6 +107,15 @@ class colorButton(Button):
         self.place(x = 400, y = 0)
         self.lbox = lbox
         self.rbutton = rbutton
+        self['command'] = self.change
+   
+    def change(self) :
+        current_ball = self.lbox.dictballs[self.lbox.get(ACTIVE)]
+        color = self.rbutton.r_var.get()
+        #i = self.lbox.balls.index(current_ball)
+        #self.lbox.canvas.delete(self.lbox.balls[i].image)
+        #self.lbox.balls[i].image = current_ball.canvas.create_oval(current_ball.x - current_ball.radious, current_ball.y - current_ball.radious, current_ball.x + current_ball.radious, current_ball.y + current_ball.radious, outline = 'black', fill = color)
+        current_ball.change_color(color)
         
 class quitButton(Button):
     def __init__(self, parent):
@@ -142,9 +151,9 @@ class color_radiobox(Radiobutton) :
     def __init__(self, parent) :
         self.r_var = StringVar()
         self.r_var.set("blue")
-        self.r1 = Radiobutton(text='Blue', width=10, height=1, variable=self.r_var, value="blue")
-        self.r2 = Radiobutton(text='Red', width=10, height=1, variable=self.r_var, value="red")
-        self.r3 = Radiobutton(text='yellow', width=10, height=1, variable=self.r_var, value="yellow")
+        self.r1 = Radiobutton(text='Black', width=10, height=1, variable=self.r_var, value="black")
+        self.r2 = Radiobutton(text='Purple', width=10, height=1, variable=self.r_var, value="purple")
+        self.r3 = Radiobutton(text='Cyan', width=10, height=1, variable=self.r_var, value="cyan")
         self.r1.pack(anchor=S)
         self.r2.pack(anchor=S)
         self.r3.pack(anchor=S)
