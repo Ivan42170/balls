@@ -145,6 +145,18 @@ class addButton(Button):
         self.lbox.label["text"] = "Number of balls : " + str(len(self.lbox.dictballs)) 
         
 #class change_label():
+class speed_scal(Scale) :
+    def __init__(self, parent) :
+        Scale.__init__(self, parent) 
+        
+        self["from_"] = 10 
+        self["to"] = 50
+        self.size_var = IntVar()
+        self.size_var.set(30)
+        self["variable"] = self.size_var
+        self.pack()
+        
+    
     
 
 class color_radiobox(Radiobutton) :
@@ -191,6 +203,7 @@ ball1 = ball(50, 50, 15, w, 10, 15)
 ball2 = ball(70, 70, 10, w, -15, -15)
 balls = [ball1, ball2]
 root.update()
+s = speed_scal(root)
 #b1 = Button(text="Изменить", width=15, height=3, command = add_balls(w, balls))
 b1 = addButton(root, w, balls)
 b1.lbox.bind('<Double-1>', lambda x : b1.lbox.remove_ball())
@@ -198,6 +211,7 @@ r1 = color_radiobox(root)
 #l1 = Label(text = balls[-1].color)
 #l1.pack()
 b3 = colorButton(root, b1.lbox, r1)
+
 def motion() :
      for e in balls :
         e.move()
