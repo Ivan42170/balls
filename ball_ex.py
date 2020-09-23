@@ -146,7 +146,7 @@ class addButton(Button):
         
 #class change_label():
 class speed_scal(Scale) :
-    def __init__(self, parent) :
+    def __init__(self, parent, lbox) :
         Scale.__init__(self, parent) 
         
         self["from_"] = 10 
@@ -155,14 +155,19 @@ class speed_scal(Scale) :
         self.size_var.set(30)
         self["variable"] = self.size_var
         self.pack()
-        
-    
+        self.button = Button(text = "change", width = 10, height = 2, command = self.resize)  
+        self.button.pack()
+        self.lbox = lbox
+    def resize(self) :
+        size = self.size_var.get()
+        ball = self.lbox.dictballs[self.lbox.get(ACTIVE)]
+        ball.change_size(size)
     
 
 class color_radiobox(Radiobutton) :
     def __init__(self, parent) :
         self.r_var = StringVar()
-        self.r_var.set("blue")
+        self.r_var.set("cyan")
         self.r1 = Radiobutton(text='Black', width=10, height=1, variable=self.r_var, value="black")
         self.r2 = Radiobutton(text='Purple', width=10, height=1, variable=self.r_var, value="purple")
         self.r3 = Radiobutton(text='Cyan', width=10, height=1, variable=self.r_var, value="cyan")
@@ -203,10 +208,10 @@ ball1 = ball(50, 50, 15, w, 10, 15)
 ball2 = ball(70, 70, 10, w, -15, -15)
 balls = [ball1, ball2]
 root.update()
-s = speed_scal(root)
 #b1 = Button(text="Изменить", width=15, height=3, command = add_balls(w, balls))
 b1 = addButton(root, w, balls)
 b1.lbox.bind('<Double-1>', lambda x : b1.lbox.remove_ball())
+s = speed_scal(root, b1.lbox)
 r1 = color_radiobox(root)
 #l1 = Label(text = balls[-1].color)
 #l1.pack()
